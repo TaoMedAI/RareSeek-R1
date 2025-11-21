@@ -48,6 +48,13 @@ You will typically receive a response within one week of submitting your request
    pip install -r requirements.txt
    ```
 
+### Deploy vLLM for inference
+
+```python
+cd inference
+sbatch inference.sh
+```
+
 ### Run demo
 ```python
 import json
@@ -90,11 +97,4 @@ for entry in data:
         print(f"Prompt: {prompt!r}")
         print(f"Generated Text: {generated_text!r}")
         print("-" * 50)
-```
-
-### Deploy vLLM for inference
-
-```python
-cd inference
-sbatch inference.sh
 ```
