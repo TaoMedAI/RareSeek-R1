@@ -11,9 +11,8 @@ For an overview of this study, see the figure below.
 - **GPU**: NVIDIA H800 GPUs (tested on 4 GPUs for inference)
 ### Dependencies
 - Linux
-- Python = 3.6
-- PyTorch = 1.10.2
 - Python 3.10
+- PyTorch = 2.6.0
 - CUDA = 12.6
 - transformers = 4.51.3
 - tokenizers = 0.21.1
