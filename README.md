@@ -44,7 +44,7 @@ You will typically receive a response within one week of submitting your request
    pip install -r requirements.txt
    ```
 
-### 部署vllm推理
+### Deploy vLLM for inference
 
 ```bash
 cd inference
