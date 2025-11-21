@@ -21,5 +21,5 @@ $ pip install -r requirements.txt
 ```
 
 ## Model weights
-The pretrained weights of MedMPT can be accessed upon request via [weights](https://huggingface.co/liangdi123/MedMPT) for non-commercial research and academic use.
+The pretrained weights of MedMPT can be accessed upon request via [Huggingface](https://huggingface.co/TaoMedAI/RareSeek-R1) for non-commercial research and academic use.
 You will typically receive a response within one week of submitting your request. If you do not hear back in a timely manner, please contact the corresponding author listed in the paper.
