@@ -9,7 +9,7 @@
 
 The model is first instruction-tuned on the clinically grounded **RareMed-Corpus**, a large, multi-source dataset deeply integrated from medical textbooks, guidelines, biomedical literature, and real-world EHR (Electronic Health Record) narratives. It is subsequently fine-tuned on **RareMed-CoT**, a high-fidelity corpus designed to instill explicit, stepwise clinical reasoning that aligns with real-world diagnostic workflows.
 
-![Overview of RareSeek-R1](https://github.com/mulinlab/RareSeek-R1/blob/main/RareSeek-R1.png)
+![Overview of RareSeek-R1](https://github.com/TaoMedAI/RareSeek-R1/blob/main/RareSeek-R1.png)
 *Figure 1: Overall framework and pipeline of RareSeek-R1.*
 
 ---
@@ -22,9 +22,10 @@ The model is first instruction-tuned on the clinically grounded **RareMed-Corpus
 - [Usage Pipeline](#-usage-pipeline)
   - [1. EHR Preprocessing](#1-ehr-preprocessing)
   - [2. Phenotype Extraction](#2-phenotype-extraction-baselines--llms)
-  - [3. Model Inference](#3-model-inference)
-  - [4. Post-processing & Normalization](#4-post-processing--normalization)
-  - [5. Evaluation](#5-evaluation)
+  - [3. Model Inference (Standard)](#3-model-inference-standard)
+  - [4. RareMedKG-Augmented Inference (KG-RAG)](#4-raremedkg-augmented-inference-kg-rag)
+  - [5. Post-processing & Normalization](#5-post-processing--normalization)
+  - [6. Evaluation](#6-evaluation)
 - [License & Contact](#-license--contact)
 
 ---
@@ -114,8 +115,8 @@ We utilize LLMs for high-fidelity Human Phenotype Ontology (HPO) extraction.
    python llm_hpo_api_client.py
    ```
 
-### 3. Model Inference
-We utilize `vLLM` to accelerate inference. You can deploy the model in a batch setting or run it interactively.
+### 3. Model Inference (Standard)
+We utilize `vLLM` to accelerate standard inference. You can deploy the model in a batch setting or run it interactively.
 
 **Batch Inference (via Slurm):**
 ```bash
@@ -153,7 +154,13 @@ for entry in data:
         print(f"Prompt: {prompt}\nGenerated Text: {output.outputs[0].text}\n{'-'*50}")
 ```
 
-### 4. Post-processing & Normalization
+### 4. RareMedKG-Augmented Inference (KG-RAG)
+Beyond standard standalone inference, our framework supports **Knowledge Graph Retrieval-Augmented Generation (KG-RAG)**. By integrating the **RareMedKG** database, this module retrieves relevant external biomedical knowledge (such as specific genetic variations and deep phenotypic associations) to dynamically enhance the model's diagnostic accuracy and reasoning capability.
+```bash
+python RareMedRAG.py
+```
+
+### 5. Post-processing & Normalization
 After generating the narrative diagnostic reasoning, we extract and standardize the disease entities.
 
 1. **Entity Extraction**: Extract specific disease names from the LLM outputs.
@@ -165,7 +172,7 @@ After generating the narrative diagnostic reasoning, we extract and standardize 
    python monarch_api_client.py
    ```
 
-### 5. Evaluation
+### 6. Evaluation
 We provide comprehensive evaluation scripts to measure the diagnostic accuracy using both **Exact Evaluation** and **Hierarchical Evaluation**.
 
 - **Reference Format**: See the standardized output format at `./sample_data/EHR-Internal_Phenotype.jsonl`.
