@@ -9,8 +9,8 @@
 
 The model is first instruction-tuned on the clinically grounded **RareMed-Corpus**, a large, multi-source dataset deeply integrated from medical textbooks, guidelines, biomedical literature, and real-world EHR (Electronic Health Record) narratives. It is subsequently fine-tuned on **RareMed-CoT**, a high-fidelity corpus designed to instill explicit, stepwise clinical reasoning that aligns with real-world diagnostic workflows.
 
-![Overview of RareSeek-R1]([https://github.com/TaoMedAI/RareSeek-R1/blob/main/RareSeek-R1.png](https://github.com/mulinlab/RareSeek-R1))
-<p align="center"><b>Figure 1: Overall framework and pipeline of RareSeek-R1.</b></p>
+![Overview of RareSeek-R1](https://github.com/TaoMedAI/RareSeek-R1/blob/main/RareSeek-R1.png)
+*Figure 1: Overall framework and pipeline of RareSeek-R1.*
 
 ---
 
@@ -23,7 +23,7 @@ The model is first instruction-tuned on the clinically grounded **RareMed-Corpus
   - [1. EHR Preprocessing](#1-ehr-preprocessing)
   - [2. Phenotype Extraction](#2-phenotype-extraction-baselines--llms)
   - [3. Model Inference (Standard)](#3-model-inference-standard)
-  - [4. RareMedKG-Augmented Inference (KG-RAG)](#4-raremedkg-augmented-inference-kg-rag)
+  - [4. RareMedRAG](#4-raremedkg-augmented-inference-kg-rag)
   - [5. Post-processing & Normalization](#5-post-processing--normalization)
   - [6. Evaluation](#6-evaluation)
 - [License & Contact](#-license--contact)
@@ -38,7 +38,7 @@ The open-source data underpinning this study, including training datasets and su
 - **Knowledge Graph Genetic Variation Data**:
   - **ClinVar**: Download the GRCh38 VCF release (2025.02.09) from the [NCBI FTP server](https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/).
   - **HGMD**: Human Gene Mutation Database (2024.02 version) can be accessed via [HGMD](https://www.hgmd.cf.ac.uk/ac/index.php).
-
+> **Data Organization:** We suggest organizing all downloaded data files within the `RareMed-KG/data/raw` directory.
 ---
 
 ## 🚀 Getting Started
@@ -52,7 +52,7 @@ The open-source data underpinning this study, including training datasets and su
 **Dependencies:**
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/TaoMedAI/RareSeek-R1.git](https://github.com/TaoMedAI/RareSeek-R1.git)
+   git clone https://github.com/TaoMedAI/RareSeek-R1.git
    cd RareSeek-R1
    ```
 2. Create and activate a Conda environment:
@@ -140,7 +140,7 @@ def build_prompt(context):
 data = load_data("sample_data/sample.jsonl")
 
 # 2. Configure sampling parameters
-sampling_params = SamplingParams(temperature=0.8, top_p=0.95)
+sampling_params = SamplingParams(temperature=0.1, top_p=0.95)
 
 # 3. Initialize vLLM (Replace with local path "models/RareSeek-R1" if downloaded)
 llm = LLM(model="TaoMedAI/RareSeek-R1") 
@@ -154,8 +154,8 @@ for entry in data:
         print(f"Prompt: {prompt}\nGenerated Text: {output.outputs[0].text}\n{'-'*50}")
 ```
 
-### 4. RareMedKG-Augmented Inference (KG-RAG)
-Beyond standard standalone inference, our framework supports **Knowledge Graph Retrieval-Augmented Generation (KG-RAG)**. By integrating the **RareMedKG** database, this module retrieves relevant external biomedical knowledge (such as specific genetic variations and deep phenotypic associations) to dynamically enhance the model's diagnostic accuracy and reasoning capability.
+### 4. RareMedRAG
+Beyond standard standalone inference, our framework supports **RareMedRAG**. By integrating the **RareMedKG** database, this module retrieves relevant external biomedical knowledge (such as specific genetic variations and deep phenotypic associations) to dynamically enhance the model's diagnostic accuracy and reasoning capability.
 ```bash
 python RareMedRAG.py
 ```
